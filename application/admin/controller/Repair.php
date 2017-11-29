@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 
 use think\Db;
+use think\Request;
 
 class Repair extends Admin
 {
@@ -11,9 +12,19 @@ class Repair extends Admin
      */
     public function index()
     {
-        $list = \think\Db::name('Repair')->select();
+        $nickname       =   input('nickname');
+        if(is_numeric($nickname)){
+            $map['id|name']=   array('like','%'.$nickname.'%');
+        }else{
+            $map['name']    =   array('like', '%'.(string)$nickname.'%');
+        }
+
+        $list = \think\Db::name('Repair')->where($map)->paginate(1);
         $this->assign('_list', $list);
         $this->assign('meta_title','报修列表');
+        //分页配置
+        $page = $list->render();
+        $this->assign('_page', $page);
         return $this->fetch();
     }
 
@@ -51,15 +62,22 @@ class Repair extends Admin
     }
     public function complete()
     {
-        $postData=\think\Request::instance()->post();
-        $ids = $postData['id'];
-        if (empty($ids)){
-            $this->error('参数错误!');
-        }
         $repair = \think\Db::name('repair');
-        $result = $repair->where('id','in',$ids)->update(['status'=>1,'update_time'=>time()]);
+        if (request()->isPost()){
+            $postData=\think\Request::instance()->post();
+            $ids = $postData['id'];
+            if (empty($ids)){
+                $this->error('参数错误!');
+            }
+            $result = $repair->where('id','in',$ids)->update(['status'=>1,'update_time'=>time()]);
+        }else{
+            $ids = Request::instance()->get();
+            var_dump($ids);die;
+            $result = $repair->where('id','eq',$ids)->update(['status'=>1,'update_time'=>time()]);
+
+        }
         if ($result){
-            $this->success('删除成功', url('index'));
+            $this->success('处理成功', url('index'));
             //记录行为
             action_log('delete_repair', 'repair', $ids, id);
         } else {
