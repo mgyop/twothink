@@ -230,7 +230,6 @@ class Article extends Admin {
         $this->assign('list',   $list);
         $this->assign('list_grids', $grids);
         $this->assign('model_list', $model);
-
         $this->assign('meta_title','内容管理');
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
@@ -469,7 +468,6 @@ class Article extends Admin {
         $this->assign('fields',     $fields);
         //获取当前分类的文档类型
         $this->assign('type_list', get_type_bycate($data['category_id']));
-
         $this->assign('meta_title', '编辑文档');
         return $this->fetch();
     }

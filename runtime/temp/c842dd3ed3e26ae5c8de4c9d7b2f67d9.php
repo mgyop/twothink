@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:83:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/repair\index.html";i:1511923002;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:83:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/config\index.html";i:1496373782;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -100,84 +100,66 @@
             
 
             
-	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2>报修列表</h2>
+		<h2>配置管理 [ <?php if(Think.get.group): ?>
+         <a href="<?php echo url('index'); ?>">全部</a><?php else: ?><strong>全部</strong><?php endif; ?>&nbsp;<?php if(is_array($group) || $group instanceof \think\Collection || $group instanceof \think\Paginator): if( count($group)==0 ) : echo "" ;else: foreach($group as $key=>$vo): if($group_id != $key): ?>
+         <a href="<?php echo url('index?group='.$key); ?>"><?php echo $vo; ?></a><?php else: ?><strong><?php echo $vo; ?></strong><?php endif; ?>&nbsp;     
+        <?php endforeach; endif; else: echo "" ;endif; ?> ]</h2>
 	</div>
-	<div class="cf">
-		<div class="fl">
-            <a class="btn" href="<?php echo url('add'); ?>">新 增</a>
-            <button class="btn ajax-post" url="<?php echo url('repair/complete'); ?>" target-form="ids">标记已处理</button>
-            <button class="btn ajax-post confirm" url="<?php echo url('repair/dels'); ?>" target-form="ids">删 除</button>
-        </div>
 
-        <!-- 高级搜索 -->
+	<div class="cf">
+		<a class="btn" href="<?php echo url('add'); ?>">新 增</a>
+		<button class="btn ajax-post confirm" url="<?php echo url('del'); ?>" target-form="ids">删 除</button>
+		<button class="btn list_sort" url="<?php echo url('sort?group='.input('group'),'',''); ?>">排序</button>
+        
+		<!-- 高级搜索 -->
 		<div class="search-form fr cf">
 			<div class="sleft">
-				<input type="text" name="nickname" class="search-input" value="<?php echo input('nickname'); ?>" placeholder="请输入用户名称或者ID">
-				<a class="sch-btn" href="javascript:;" id="search" url="<?php echo url('index'); ?>"><i class="btn-search"></i></a>
+				<input type="text" name="name" class="search-input" value="<?php echo input('name'); ?>" placeholder="请输入配置名称">
+				<a class="sch-btn" href="javascript:;" id="search" url="<?php echo url('config/index'); ?>"><i class="btn-search"></i></a>
 			</div>
 		</div>
-    </div>
-    <!-- 数据列表 -->
-    <div class="data-table table-striped">
-	<table class="">
-    <thead>
-        <tr>
-		<th><input class="check-all" type="checkbox"/></th>
-		<th class="">报修单号</th>
-		<th class="">报修人</th>
-		<th class="">电话</th>
-		<th class="">地址</th>
-		<th class="">问题</th>
-		<th class="">报修时间</th>
-		<th class="">处理时间</th>
-		<th class="">状态</th>
-		<th class="">操作</th>
-		</tr>
-    </thead>
-    <tbody>
-		<?php if(!(empty($_list) || (($_list instanceof \think\Collection || $_list instanceof \think\Paginator ) && $_list->isEmpty()))): if(is_array($_list) || $_list instanceof \think\Collection || $_list instanceof \think\Paginator): $i = 0; $__LIST__ = $_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-		<tr>
-            <td><input class="ids" type="checkbox" name="id[]" value="<?php echo $vo['id']; ?>" /></td>
-			<td><?php echo $vo['sn']; ?> </td>
-			<td><?php echo $vo['name']; ?></td>
-			<td><?php echo $vo['tel']; ?></td>
-			<td><?php echo $vo['address']; ?></td>
-			<td><?php echo $vo['question']; ?></td>
-			<td><span><?php echo time_format($vo['create_time']); ?></span></td>
-			<td><span>
-			<?php
-			if ($vo['update_time']){
-			     echo date('Y-m-d H:i:s',$vo['update_time']);
-			}else{
-			     echo "";
-			}?>
-			</span></td>
-			<td>
-				<?php
-			if ($vo['status'] == 0){
-			     echo "待处理";
-			}else{
-			     echo "已处理";
-			}?>
-			</td>
-			<td><?php if($vo['status'] == '0'): ?>
-				<button class="btn ajax-get" url="complete?id=<?=$vo['id']?>">标记为处理</button>
-				<?php endif; ?>
-				<a href="<?php echo url('repair/update?id='.$vo['id']); ?>" class="btn authorize">修改</a>
-                <a href="<?php echo url('repair/del?id='.$vo['id']); ?>" class="btn confirm ajax-get">删除</a>
-                </td>
-		</tr>
-		<?php endforeach; endif; else: echo "" ;endif; else: ?>
-		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
-		<?php endif; ?>
-	</tbody>
-    </table>
 	</div>
-    <div class="page">
-        <?php echo $_page; ?>
-    </div>
+
+	<div class="data-table table-striped">
+		<table>
+			<thead>
+				<tr>
+					<th class="row-selected">
+						<input class="checkbox check-all" type="checkbox">
+					</th>
+					<th>ID</th>
+					<th>名称</th>
+					<th>标题</th>
+					<th>分组</th>
+					<th>类型</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php if(!(empty($list) || (($list instanceof \think\Collection || $list instanceof \think\Paginator ) && $list->isEmpty()))): if(is_array($list) || $list instanceof \think\Collection || $list instanceof \think\Paginator): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$config): $mod = ($i % 2 );++$i;?> 
+					<tr>
+						<td><input class="ids row-selected" type="checkbox" name="id[]" value="<?php echo $config['id']; ?>"></td>
+						<td><?php echo $config['id']; ?></td>
+						<td><a href="<?php echo url('edit?id='.$config['id']); ?>"><?php echo $config['name']; ?></a></td>
+						<td><?php echo $config['title']; ?></td>
+						<td><?php echo get_config_group($config['group']); ?></td>
+						<td><?php echo get_config_type($config['type']); ?></td>
+						<td>
+							<a title="编辑" href="<?php echo url('edit?id='.$config['id']); ?>">编辑</a>
+							<a class="confirm ajax-get" title="删除" href="<?php echo url('del?id='.$config['id']); ?>">删除</a>
+						</td>
+					</tr>
+				<?php endforeach; endif; else: echo "" ;endif; else: ?>
+				<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+				<?php endif; ?>
+			</tbody>
+		</table>
+		<!-- 分页 -->
+	    <div class="page">
+	        <?php echo $_page; ?>
+	    </div>
+	</div>
 
         </div>
         <div class="cont-ft">
@@ -275,9 +257,8 @@
         }
     </script>
     
-	<script src="__PUBLIC__/static/thinkbox/jquery.thinkbox.js"></script>
-
-	<script type="text/javascript">
+<script type="text/javascript">
+$(function(){
 	//搜索功能
 	$("#search").click(function(){
 		var url = $(this).attr('url');
@@ -298,9 +279,25 @@
 			return false;
 		}
 	});
-    //导航高亮
-    highlight_subnav('<?php echo url('User/index'); ?>');
-	</script>
+	//点击排序
+	$('.list_sort').click(function(){
+		var url = $(this).attr('url');
+		var ids = $('.ids:checked');
+		var param = '';
+		if(ids.length > 0){
+			var str = new Array();
+			ids.each(function(){
+				str.push($(this).val());
+			});
+			param = str.join(',');
+		}
+
+		if(url != undefined && url != ''){
+			window.location.href = url + '/ids/' + param;
+		}
+	});
+});
+</script>
 
 </body>
 </html>

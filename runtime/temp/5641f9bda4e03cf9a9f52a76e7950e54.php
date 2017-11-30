@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:81:"D:\phpStudy\WWW\twothink\public/../application/home/view/default/index\index.html";i:1511850756;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:81:"D:\phpStudy\WWW\twothink\public/../application/home/view/default/index\index.html";i:1512027366;}*/ ?>
 <html>
 <head>
     <meta charset="utf-8">
@@ -44,7 +44,7 @@
                         </a>
                     </div>
                     <div class="col-xs-4">
-                        <a href="service.html">
+                        <a href="<?php echo url('server/index'); ?>">
                             <div class="indexLabel label-warning">
                                 <span class="glyphicon glyphicon-ok-circle"></span><br/>
                                 便民服务
@@ -60,7 +60,7 @@
                         </a>
                     </div>
                     <div class="col-xs-4">
-                        <a href="notice.html">
+                        <a href="<?php echo url('active/index'); ?>">
                             <div class="indexLabel label-success">
                                 <span class="glyphicon glyphicon-briefcase"></span><br/>
                                 商家活动
@@ -68,7 +68,7 @@
                         </a>
                     </div>
                     <div class="col-xs-4">
-                        <a href="zushou.html">
+                        <a href="<?php echo url('sold/index'); ?>">
                             <div class="indexLabel label-primary">
                                 <span class="glyphicon glyphicon-usd"></span><br/>
                                 小区租售
@@ -76,7 +76,7 @@
                         </a>
                     </div>
                     <div class="col-xs-4">
-                        <a href="notice.html">
+                        <a href="<?php echo url('cactive/index'); ?>">
                             <div class="indexLabel label-default">
                                 <span class="glyphicon glyphicon-apple"></span><br/>
                                 小区活动

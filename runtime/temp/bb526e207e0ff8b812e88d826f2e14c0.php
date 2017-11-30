@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/model\index.html";i:1496373782;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/goods\index.html";i:1512036017;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -102,55 +102,57 @@
             
 	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2>模型列表</h2>
-
+		<h2>报修列表</h2>
 	</div>
-    <div class="tools">
-        <a class="btn" href="<?php echo url('Model/add'); ?>">新 增</a>
-        <button class="btn ajax-post" target-form="ids" url="<?php echo url('Model/setStatus',array('status'=>1)); ?>">启 用</button>
-        <button class="btn ajax-post" target-form="ids" url="<?php echo url('Model/setStatus',array('status'=>0)); ?>">禁 用</button>
-        <a class="btn" href="<?php echo url('Model/generate'); ?>">生 成/复制</a>
-    </div>
+	<div class="cf">
+		<div class="fl">
+            <a class="btn" href="<?php echo url('add'); ?>">新 增</a>
+            <button class="btn ajax-post" url="<?php echo url('repair/complete'); ?>" target-form="ids">标记已处理</button>
+            <button class="btn ajax-post confirm" url="<?php echo url('repair/dels'); ?>" target-form="ids">删 除</button>
+        </div>
 
-	<!-- 数据列表 -->
-	<div class="data-table">
-        <div class="data-table table-striped">
-<table class="">
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<input type="text" name="nickname" class="search-input" value="<?php echo input('nickname'); ?>" placeholder="请输入用户名称或者ID">
+				<a class="sch-btn" href="javascript:;" id="search" url="<?php echo url('index'); ?>"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
     <thead>
         <tr>
-		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
-		<th class="">编号</th>
-		<th class="">标识</th>
-		<th class="">名称</th>
-		<th class="">创建时间</th>
-		<th class="">状态</th>
+		<th><input class="check-all" type="checkbox"/></th>
+		<th class="">id</th>
+		<th class="">Did</th>
+		<th class="">价格</th>
+		<th class="">电话</th>
 		<th class="">操作</th>
 		</tr>
     </thead>
     <tbody>
-	<?php if(!(empty($_list) || (($_list instanceof \think\Collection || $_list instanceof \think\Paginator ) && $_list->isEmpty()))): if(is_array($_list) || $_list instanceof \think\Collection || $_list instanceof \think\Paginator): $i = 0; $__LIST__ = $_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+		<?php if(!(empty($_list) || (($_list instanceof \think\Collection || $_list instanceof \think\Paginator ) && $_list->isEmpty()))): if(is_array($_list) || $_list instanceof \think\Collection || $_list instanceof \think\Paginator): $i = 0; $__LIST__ = $_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
 		<tr>
-            <td><input class="ids" type="checkbox" name="ids[]" value="<?php echo $vo['id']; ?>" /></td>
+            <td><input class="ids" type="checkbox" name="id[]" value="<?php echo $vo['id']; ?>" /></td>
 			<td><?php echo $vo['id']; ?> </td>
-			<td><?php echo $vo['name']; ?></td>
-			<td><a data-id="<?php echo $vo['id']; ?>" href="<?php echo url('model/edit?id='.$vo['id']); ?>"><?php echo $vo['title']; ?></a></td>
-			<td><span><?php echo time_format($vo['create_time']); ?></span></td>
-			<td><?php echo $vo['status_text']; ?></td>
-			<td>
-				<a href="<?php echo url('think/lists?model='.$vo['name']); ?>">数据</a>
-				<a href="<?php echo url('model/setstatus?ids='.$vo['id'].'&status='.abs(1-$vo['status'])); ?>" class="ajax-get"><?php echo show_status_op($vo['status']); ?></a>
-				<a href="<?php echo url('model/edit?id='.$vo['id']); ?>">编辑</a>
-				<a href="<?php echo url('model/del?ids='.$vo['id']); ?>" class="confirm ajax-get">删除</a>
-            </td>
+			<td><?php echo $vo['document_id']; ?></td>
+			<td><?php echo $vo['price']; ?></td>
+			<td><?php echo $vo['tel']; ?></td>
+			<td><?php if($vo['status'] == '0'): ?>
+				<button class="btn ajax-get" url="complete?id=<?=$vo['id']?>">标记为处理</button>
+				<?php endif; ?>
+				<a href="<?php echo url('goods/update?id='.$vo['id']); ?>" class="btn authorize">编辑</a>
+                <a href="<?php echo url('goods/del?id='.$vo['id']); ?>" class="btn confirm ajax-get">删除</a>
+                </td>
 		</tr>
 		<?php endforeach; endif; else: echo "" ;endif; else: ?>
-		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
 		<?php endif; ?>
 	</tbody>
     </table>
-
-        </div>
-    </div>
+	</div>
     <div class="page">
         <?php echo $_page; ?>
     </div>
@@ -251,23 +253,32 @@
         }
     </script>
     
-    <script src="__PUBLIC__/static/thinkbox/jquery.thinkbox.js"></script>
-    <script type="text/javascript">
-    $(function(){
-    	$("#search").click(function(){
-    		var url = $(this).attr('url');
-    		var status = $('select[name=status]').val();
-    		var search = $('input[name=search]').val();
-    		if(status != ''){
-    			url += '/status/' + status;
-    		}
-    		if(search != ''){
-    			url += '/search/' + search;
-    		}
-    		window.location.href = url;
-    	});
-})
-</script>
+	<script src="__PUBLIC__/static/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+    //导航高亮
+    highlight_subnav('<?php echo url('User/index'); ?>');
+	</script>
 
 </body>
 </html>

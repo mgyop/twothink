@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:81:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/repair\add.html";i:1511678127;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:80:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/goods\add.html";i:1512040323;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -101,18 +101,33 @@
 
             
     <div class="main-title">
-        <h2><?=$info?>报修</h2>
+        <h2><?=$info?>商品扩展信息</h2>
     </div>
-    <form action="<?php echo url(); ?>" method="post" class="form-horizontal">
+    <form action="" method="post" class="form-horizontal">
         <div class="form-item">
-            <label class="item-label">姓名<span class="check-tips">（方便我们为您服务）</span></label>
             <div class="controls">
                <?php
-                if ($info == '修改'){
-                   echo '<input type="hidden" name="id" value="'.$id.'">';
-                }
+                  if ($info == '修改'){
+                     echo '<input type="hidden" name="id" value="'.$id.'">';
+                  }
                ?>
-                <input type="text" class="text input-large" name="name" value='<?=isset($name)?$name:""?>'>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">Did<span class="check-tips"></span></label>
+            <div class="controls">
+                <select name="document_id" <?php if($info == '修改'){echo 'disabled';}?>>
+                    <option value="">请选择内容对应的商品</option>
+                    <?php foreach($documents as $item):
+                    $document_id = isset($document_id)?$document_id:"";
+                    $html = '';
+                    if ($document_id == $item['id']){
+                       $html = 'selected';
+                    }
+                    ?>
+                    <option value="<?=$item['id']?>" <?=$html?> > <?=$item['title']?> </option>
+                    <?php endforeach;?>
+                </select>
             </div>
         </div>
         <div class="form-item">
@@ -122,15 +137,9 @@
             </div>
         </div>
         <div class="form-item">
-            <label class="item-label">地址</label>
+            <label class="item-label">价格</label>
             <div class="controls">
-                <input type="text" class="text input-large" name="address" value='<?=isset($address)?$address:""?>'>
-            </div>
-        </div>
-        <div class="form-item">
-            <label class="item-label">描述<span class="check-tips">（请仔细描述你的问题）</span></label>
-            <div class="controls">
-                <textarea name="question" class="textarea text-left" cols="50" rows="8"><?=isset($question)?$question:""?></textarea>
+                <input type="number" class="text input-large" name="price" value='<?=isset($price)?$price:""?>'>
             </div>
         </div>
         <div class="form-item">

@@ -51,6 +51,18 @@ class Document extends Model{
         return $this->hasOne('Picture','id','cover_id')->field('id,path');
     }
 
+    public function documentArticle()
+    {
+        return $this->hasOne('DocumentArticle','id','id')->field('id,content');
+    }
+    public function goods()
+    {
+        return $this->hasOne('goods','document_id','id')->field();
+    }
+    public function ucenterMember()
+    {
+        return $this->hasOne('UcenterMember','id','uid')->field('id,username');
+    }
     /**
      * 获取文档列表
      * @param  integer  $category 分类ID

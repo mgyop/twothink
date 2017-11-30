@@ -65,7 +65,7 @@
 			}?>
 			</td>
 			<td>{eq name="vo.status" value="0"}
-				<a href="{:url('repair/complete?id='.$vo['id'])}" class="btn ajax-get">标记为处理</a>
+				<button class="btn ajax-get" url="complete?id=<?=$vo['id']?>">标记为处理</button>
 				{/eq}
 				<a href="{:url('repair/update?id='.$vo['id'])}" class="btn authorize">修改</a>
                 <a href="{:url('repair/del?id='.$vo['id'])}" class="btn confirm ajax-get">删除</a>

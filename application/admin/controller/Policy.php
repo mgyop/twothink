@@ -3,6 +3,10 @@ namespace app\admin\controller;
 
 class Policy extends Admin
 {
+    public function index()
+    {
+        return $this->fetch();
+    }
     public function add()
     {
         if (request()->isPost()){

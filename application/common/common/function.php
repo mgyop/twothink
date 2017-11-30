@@ -8,6 +8,8 @@
 // +----------------------------------------------------------------------
 
 // TwoThink常量定义
+use think\Db;
+
 define('TWOTHINK_VERSION','1.2.1' );
 define('TWOTHINK_ADDON_PATH', ROOT_PATH. 'addons/' );
 /**
@@ -1211,4 +1213,16 @@ function in_array_case($value, $array) {
 function get_cover_path($id){
   $result = model('Picture')->where('id',$id)->value('path');
   return $result ? $result:'/static/static/nopic.jpg';
+}
+
+/**
+ * 是否认证
+ * @return array|false|PDOStatement|string|\think\Model
+ */
+function confirm()
+{
+    $id = is_login();//user_id
+    //判断是否认证
+    $res = Db::name('confirm')->where('member_id',$id)->find();
+    return $res;
 }

@@ -1,3 +1,4 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:84:"D:\phpStudy\WWW\twothink\public/../application/user/view/default/login\register.html";i:1512033984;}*/ ?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +18,7 @@
     .controls_my{margin-bottom:5px;}
   </style>
 </head>
-{block name="body"}
+
 <section>
   <div class="span12"  class="page-header">
     <h1 class="col-xs-12">注 册</h1>
@@ -55,7 +56,7 @@
           <div class="control-group">
             <label class="control-label"></label>
             <div class="controls verifyimg">
-               {:captcha_img()}
+               <?php echo captcha_img(); ?>
             </div>
             <div class="controls Validform_checktip text-warning"></div>
           </div>
@@ -65,17 +66,17 @@
             </div>
           </div>
           <div class="controls">
-            <a href="{:url('User/login')}" class="btn col-xs-offset-9 col-sm-offset-11 col-md-offset-11 col-lg-offset-11" style="background-color: white;">去登陆</a>
+            <a href="<?php echo url('User/login'); ?>" class="btn col-xs-offset-9 col-sm-offset-11 col-md-offset-11 col-lg-offset-11" style="background-color: white;">去登陆</a>
           </div>
   </div>
         </form>
 	</div>
 </section>
 
-{/block}
 
-{block name="side"} {/block}
-{block name="script"}
+
+ 
+
 <!--导航部分-->
 <?php require '/html/nav.html';?>
 <!--导航结束-->
@@ -117,4 +118,4 @@
         }); 
     });
 	</script>
-{/block}
+

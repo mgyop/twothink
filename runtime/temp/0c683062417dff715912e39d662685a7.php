@@ -1,3 +1,4 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:82:"D:\phpStudy\WWW\twothink\public/../application/home/view/default/repair\index.html";i:1512057939;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -25,40 +26,28 @@
 <body>
 <div class="main">
     <!--导航部分-->
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container-fluid text-center">
-            <div class="col-xs-3">
-                <p class="navbar-text"><a href="{:url('index/index')}" class="navbar-link">首页</a></p>
-            </div>
-            <div class="col-xs-3">
-                <p class="navbar-text"><a href="#" class="navbar-link">服务</a></p>
-            </div>
-            <div class="col-xs-3">
-                <p class="navbar-text"><a href="#" class="navbar-link">发现</a></p>
-            </div>
-            <div class="col-xs-3">
-                <p class="navbar-text"><a href="#" class="navbar-link">我的</a></p>
-            </div>
-        </div>
-    </nav>
+    <?php require '/html/nav.html';?>
     <!--导航结束-->
+    
+    <table class="table table-striped">
+       <thead>
+          <tr>
+              <th>编号</th>
+              <th>sn</th>
+              <th>name</th>
+              <th>tel</th>
+              <th>address</th>
+              <th>question</th>
+              <th>content</th>
+              <th>status</th>
+              <th>创建时间</th>
+              <th>操作</th>
+          </tr>
+       </thead>
+        <tbody class="main_text">
 
-    <div class="container-fluid main_text">
-        {volist name="_list" id="list"}
-        <div class="row noticeList">
-            <!--<a href="{:url('notice/detail')}?id={$list.id}">-->
-            <!--<div class="col-xs-2">-->
-                <!--<img class="noticeImg" src="__ROOT__/static/home/other/image/1.png" />-->
-            <!--</div>-->
-            <!--<div class="col-xs-10">-->
-                <!--<p class="title">{$list.title}</p>-->
-                <!--<p class="info">浏览: {$list.view} <span class="pull-right"><?=date("Y-m-d",$list['create_time'])?></span> </p>-->
-            <!--</div>-->
-            <!--</a>-->
-
-        </div>
-        {/volist}
-    </div>
+        </tbody>
+    </table>
     <div class="container-fluid ">
         <button class="btn btn-info col-xs-12" path="" id="my_button">下一页</button>
     </div>
@@ -69,7 +58,7 @@
 <script src="__ROOT__/static/home/other/bootstrap/js/bootstrap.min.js"></script>
 <script>
     $(function () {
-        var page = "{$pageNext}";
+        var page = "<?php echo $pageNext; ?>";
         $("#my_button").attr('path',page);
 
         $("#my_button").click(function () {
@@ -84,19 +73,20 @@
                     //改变按钮的path
                     $("#my_button").attr('path',json.path);
                     //准备数据
-                    var lists = json.data;
+                    var lists = json.data.data;
                     var html = '';
                     $(lists).each(function(index,item){
-                        html += '<div class="row noticeList">';
-                        html += '<a href="{:url(\'notice/detail\')}?id='+item.id+'">';
-                        html += '<div class="col-xs-2">';
-                        html += '<img class="noticeImg" src="'+item.img_src+'" />';
-                        html += '</div>';
-                        html += '<div class="col-xs-10">';
-                        html += '<p class="title">'+item.title+'</p>';
-
-                        html += '<p class="info">浏览: '+item.view+' <span class="pull-right">'+getLocalTime(item.create_time)+'</span> </p>';
-                        html += '</div></a></div>';
+                        html += '<tr>';
+                        html += '<td>'+item.id+'</td>';
+                        html += '<td>'+item.sn+'</td>';
+                        html += '<td>'+item.name+'</td>';
+                        html += '<td>'+item.tel+'</td>';
+                        html += '<td>'+item.address+'</td>';
+                        html += '<td>'+item.question+'</td>';
+                        html += '<td>'+item.content+'</td>';
+                        html += '<td>'+item.create_time+'</td>';
+                        html += '<td><button class="btn btn-info">撤销</button></td>';
+                        html += '</tr>';
                     });
                     //追加数据
                     $(".main_text").append(html);

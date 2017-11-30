@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:83:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/repair\index.html";i:1511923002;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/index\index.html";i:1496373782;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -17,6 +17,11 @@
     <script type="text/javascript" src="__PUBLIC__/admin/js/jquery.mousewheel.js"></script>
     <!--<![endif]-->
     
+    <style>
+        body{padding: 0}
+        #main{margin-top: 50px;}
+    </style>
+
 </head>
 <body>
     <!-- 头部 -->
@@ -52,24 +57,6 @@
     <div class="sidebar">
         <!-- 子导航 -->
         
-            <div id="subnav" class="subnav">
-                <?php if(!(empty($_extra_menu) || (($_extra_menu instanceof \think\Collection || $_extra_menu instanceof \think\Paginator ) && $_extra_menu->isEmpty()))): ?>
-                    
-                    <?php echo extra_menu($_extra_menu,$__MENU__); endif; if(is_array($__MENU__['child']) || $__MENU__['child'] instanceof \think\Collection || $__MENU__['child'] instanceof \think\Paginator): $i = 0; $__LIST__ = $__MENU__['child'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$sub_menu): $mod = ($i % 2 );++$i;?>
-                    <!-- 子导航 -->
-                    <?php if(!(empty($sub_menu) || (($sub_menu instanceof \think\Collection || $sub_menu instanceof \think\Paginator ) && $sub_menu->isEmpty()))): if(!(empty($key) || (($key instanceof \think\Collection || $key instanceof \think\Paginator ) && $key->isEmpty()))): ?><h3><i class="icon icon-unfold"></i><?php echo $key; ?></h3><?php endif; ?>
-                        <ul class="side-sub-menu">
-                            <?php if(is_array($sub_menu) || $sub_menu instanceof \think\Collection || $sub_menu instanceof \think\Paginator): $i = 0; $__LIST__ = $sub_menu;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$menu): $mod = ($i % 2 );++$i;?>
-                                <li>
-                                    <a class="item" href="<?php echo url($menu['url']); ?>"><?php echo $menu['title']; ?></a>
-                                </li>
-                            <?php endforeach; endif; else: echo "" ;endif; ?>
-                        </ul>
-                    <?php endif; ?>
-                    <!-- /子导航 -->
-                <?php endforeach; endif; else: echo "" ;endif; ?>
-            </div>
-        
         <!-- /子导航 -->
     </div>
     <!-- /边栏 -->
@@ -100,83 +87,10 @@
             
 
             
-	<!-- 标题栏 -->
-	<div class="main-title">
-		<h2>报修列表</h2>
-	</div>
-	<div class="cf">
-		<div class="fl">
-            <a class="btn" href="<?php echo url('add'); ?>">新 增</a>
-            <button class="btn ajax-post" url="<?php echo url('repair/complete'); ?>" target-form="ids">标记已处理</button>
-            <button class="btn ajax-post confirm" url="<?php echo url('repair/dels'); ?>" target-form="ids">删 除</button>
-        </div>
-
-        <!-- 高级搜索 -->
-		<div class="search-form fr cf">
-			<div class="sleft">
-				<input type="text" name="nickname" class="search-input" value="<?php echo input('nickname'); ?>" placeholder="请输入用户名称或者ID">
-				<a class="sch-btn" href="javascript:;" id="search" url="<?php echo url('index'); ?>"><i class="btn-search"></i></a>
-			</div>
-		</div>
-    </div>
-    <!-- 数据列表 -->
-    <div class="data-table table-striped">
-	<table class="">
-    <thead>
-        <tr>
-		<th><input class="check-all" type="checkbox"/></th>
-		<th class="">报修单号</th>
-		<th class="">报修人</th>
-		<th class="">电话</th>
-		<th class="">地址</th>
-		<th class="">问题</th>
-		<th class="">报修时间</th>
-		<th class="">处理时间</th>
-		<th class="">状态</th>
-		<th class="">操作</th>
-		</tr>
-    </thead>
-    <tbody>
-		<?php if(!(empty($_list) || (($_list instanceof \think\Collection || $_list instanceof \think\Paginator ) && $_list->isEmpty()))): if(is_array($_list) || $_list instanceof \think\Collection || $_list instanceof \think\Paginator): $i = 0; $__LIST__ = $_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-		<tr>
-            <td><input class="ids" type="checkbox" name="id[]" value="<?php echo $vo['id']; ?>" /></td>
-			<td><?php echo $vo['sn']; ?> </td>
-			<td><?php echo $vo['name']; ?></td>
-			<td><?php echo $vo['tel']; ?></td>
-			<td><?php echo $vo['address']; ?></td>
-			<td><?php echo $vo['question']; ?></td>
-			<td><span><?php echo time_format($vo['create_time']); ?></span></td>
-			<td><span>
-			<?php
-			if ($vo['update_time']){
-			     echo date('Y-m-d H:i:s',$vo['update_time']);
-			}else{
-			     echo "";
-			}?>
-			</span></td>
-			<td>
-				<?php
-			if ($vo['status'] == 0){
-			     echo "待处理";
-			}else{
-			     echo "已处理";
-			}?>
-			</td>
-			<td><?php if($vo['status'] == '0'): ?>
-				<button class="btn ajax-get" url="complete?id=<?=$vo['id']?>">标记为处理</button>
-				<?php endif; ?>
-				<a href="<?php echo url('repair/update?id='.$vo['id']); ?>" class="btn authorize">修改</a>
-                <a href="<?php echo url('repair/del?id='.$vo['id']); ?>" class="btn confirm ajax-get">删除</a>
-                </td>
-		</tr>
-		<?php endforeach; endif; else: echo "" ;endif; else: ?>
-		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
-		<?php endif; ?>
-	</tbody>
-    </table>
-	</div>
-    <div class="page">
-        <?php echo $_page; ?>
+    <!-- 主体 -->
+    <div id="indexMain" class="index-main">
+       <!-- 插件块 -->
+       <div class="container-span"><?php echo hook('AdminIndex'); ?></div>
     </div>
 
         </div>
@@ -275,32 +189,20 @@
         }
     </script>
     
-	<script src="__PUBLIC__/static/thinkbox/jquery.thinkbox.js"></script>
-
-	<script type="text/javascript">
-	//搜索功能
-	$("#search").click(function(){
-		var url = $(this).attr('url');
-        var query  = $('.search-form').find('input').serialize();
-        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
-        query = query.replace(/^&/g,'');
-        if( url.indexOf('?')>0 ){
-            url += '&' + query;
-        }else{
-            url += '?' + query;
-        }
-		window.location.href = url;
-	});
-	//回车搜索
-	$(".search-input").keyup(function(e){
-		if(e.keyCode === 13){
-			$("#search").click();
-			return false;
-		}
-	});
-    //导航高亮
-    highlight_subnav('<?php echo url('User/index'); ?>');
-	</script>
+<script type="text/javascript">
+    /* 插件块关闭操作 */
+    $(".title-opt .wm-slide").each(function(){
+        $(this).click(function(){
+            $(this).closest(".columns-mod").find(".bd").toggle();
+            $(this).find("i").toggleClass("mod-up");
+        });
+    })
+    $(function(){
+        // $('#main').attr({'id': 'indexMain','class': 'index-main'});
+        $('.copyright').html('<div class="copyright"> ©2013-2016 艺品网络工作室版权所有</div>');
+        $('.sidebar').remove();
+    })
+</script>
 
 </body>
 </html>

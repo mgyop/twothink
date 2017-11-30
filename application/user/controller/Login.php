@@ -63,7 +63,7 @@ class Login extends Controller {
     }
 
 	/* 注册页面 */
-	public function register($username = '', $password = '', $repassword = '', $email = '', $verify = ''){
+	public function register($username = '', $password = '', $repassword = '', $email = '',$verify = ''){
         if(!config('user_allow_register')){
             $this->error('注册已关闭');
         }
@@ -76,11 +76,10 @@ class Login extends Controller {
 			/* 检测密码 */
 			if($password != $repassword){
 				$this->error('密码和重复密码不一致！');
-			}			
-
+			}
 			/* 调用注册接口注册用户 */
             $User = new UcApi;
-			$uid = $User->register($username, $password, $email); 
+			$uid = $User->register($username, $password, $email);
 			if(0 < $uid){ //注册成功
 				//TODO: 发送验证邮件
 				$this->success('注册成功！',url('login/index'));

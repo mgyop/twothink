@@ -34,7 +34,7 @@ class Repair extends Admin
             $this->error('参数错误!');
         }
         $repair = \think\Db::name('repair');
-        $result = $repair->where('id','eq',$id)->delete();
+        $result = $repair->where('id',$id)->delete();
         if ($result){
             $this->success('删除成功', url('index'));
             //记录行为
@@ -69,13 +69,11 @@ class Repair extends Admin
             if (empty($ids)){
                 $this->error('参数错误!');
             }
-            $result = $repair->where('id','in',$ids)->update(['status'=>1,'update_time'=>time()]);
         }else{
-            $ids = Request::instance()->get();
-            var_dump($ids);die;
-            $result = $repair->where('id','eq',$ids)->update(['status'=>1,'update_time'=>time()]);
-
+            $getData = Request::instance()->get();
+            $ids = $getData['id'];
         }
+        $result = $repair->where('id','in',$ids)->update(['status'=>1,'update_time'=>time()]);
         if ($result){
             $this->success('处理成功', url('index'));
             //记录行为

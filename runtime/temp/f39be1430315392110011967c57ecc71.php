@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/article\index.html";i:1496373782;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;s:87:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/article\sidemenu.html";i:1496373782;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/article\index.html";i:1511945755;s:82:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/public\base.html";i:1496373782;s:87:"D:\phpStudy\WWW\twothink\public/../application/admin/view/default/article\sidemenu.html";i:1496373782;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -217,7 +217,7 @@
 					</button>
 				<?php endif; ?>
 			</div>
-            <button class="btn ajax-post" target-form="ids" url="<?php echo url("Article/setStatus",array("status"=>1,'cate_id'=>input('cate_id'))); ?>">启 用</button>
+            <button class="btn ajax-post" target-form="ids" url="<?php echo url("Article/setStatus",array("status"=>1,'cate_id'=>input('cate_id'))); ?>">发 布</button>
 			<button class="btn ajax-post" target-form="ids" url="<?php echo url("Article/setStatus",array("status"=>0,'cate_id'=>input('cate_id'))); ?>">禁 用</button>
 			<!-- <button class="btn ajax-post" target-form="ids" url="<?php echo url("Article/move"); ?>">移 动</button>
 			<button class="btn ajax-post" target-form="ids" url="<?php echo url("Article/copy"); ?>">复 制</button>

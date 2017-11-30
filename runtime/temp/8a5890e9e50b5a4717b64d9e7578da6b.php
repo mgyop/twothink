@@ -1,3 +1,4 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:77:"D:\phpStudy\WWW\twothink\public/../application/home/view/default/my\list.html";i:1512058495;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -25,39 +26,15 @@
 <body>
 <div class="main">
     <!--导航部分-->
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container-fluid text-center">
-            <div class="col-xs-3">
-                <p class="navbar-text"><a href="{:url('index/index')}" class="navbar-link">首页</a></p>
-            </div>
-            <div class="col-xs-3">
-                <p class="navbar-text"><a href="#" class="navbar-link">服务</a></p>
-            </div>
-            <div class="col-xs-3">
-                <p class="navbar-text"><a href="#" class="navbar-link">发现</a></p>
-            </div>
-            <div class="col-xs-3">
-                <p class="navbar-text"><a href="#" class="navbar-link">我的</a></p>
-            </div>
-        </div>
-    </nav>
+    <?php require '/html/nav.html';?>
     <!--导航结束-->
 
     <div class="container-fluid main_text">
-        {volist name="_list" id="list"}
+        <?php if(is_array($_list) || $_list instanceof \think\Collection || $_list instanceof \think\Paginator): $i = 0; $__LIST__ = $_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$list): $mod = ($i % 2 );++$i;?>
         <div class="row noticeList">
-            <!--<a href="{:url('notice/detail')}?id={$list.id}">-->
-            <!--<div class="col-xs-2">-->
-                <!--<img class="noticeImg" src="__ROOT__/static/home/other/image/1.png" />-->
-            <!--</div>-->
-            <!--<div class="col-xs-10">-->
-                <!--<p class="title">{$list.title}</p>-->
-                <!--<p class="info">浏览: {$list.view} <span class="pull-right"><?=date("Y-m-d",$list['create_time'])?></span> </p>-->
-            <!--</div>-->
-            <!--</a>-->
 
         </div>
-        {/volist}
+        <?php endforeach; endif; else: echo "" ;endif; ?>
     </div>
     <div class="container-fluid ">
         <button class="btn btn-info col-xs-12" path="" id="my_button">下一页</button>
@@ -69,7 +46,7 @@
 <script src="__ROOT__/static/home/other/bootstrap/js/bootstrap.min.js"></script>
 <script>
     $(function () {
-        var page = "{$pageNext}";
+        var page = "<?php echo $pageNext; ?>";
         $("#my_button").attr('path',page);
 
         $("#my_button").click(function () {
@@ -88,7 +65,7 @@
                     var html = '';
                     $(lists).each(function(index,item){
                         html += '<div class="row noticeList">';
-                        html += '<a href="{:url(\'notice/detail\')}?id='+item.id+'">';
+                        html += '<a href="<?php echo url('notice/detail'); ?>?id='+item.id+'">';
                         html += '<div class="col-xs-2">';
                         html += '<img class="noticeImg" src="'+item.img_src+'" />';
                         html += '</div>';
