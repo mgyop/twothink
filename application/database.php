@@ -15,9 +15,9 @@ return [
     // 数据库名
     'database'       => 'twothink',
     // 用户名
-    'username'       => 'root',
+    'username'       => 'twothink',
     // 密码
-    'password'       => 'root',
+    'password'       => 'hbkzRNx6at',
     // 端口
     'hostport'       => '3306',
     // 连接dsn
